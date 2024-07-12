@@ -1,15 +1,19 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const REPO_OWNER = 'raimonika20';
 const REPO_NAME = 'update-style-version';
-const BRANCH_NAME = 'update-version-script';
-const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${BRANCH_NAME}`;
 const PR_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/pulls?state=open`;
 const STYLE_CSS_PATH = path.join(__dirname, 'style.css');
 
-async function getLatestCommitHash() {
+function getBranchName() {
+    return execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+}
+
+async function getLatestCommitHash(branchName) {
+    const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${branchName}`;
     const response = await axios.get(GITHUB_API_URL);
     const latestCommitHash = response.data[0].sha.substring(0, 7);
     console.log(`Latest commit hash: ${latestCommitHash}`);
@@ -35,7 +39,9 @@ async function getPRIDForCommit(commitHash) {
 
 async function updateVersion() {
     try {
-        const latestCommitHash = await getLatestCommitHash();
+        const branchName = getBranchName();
+        // console.log(`Current Branch: ${branchName}`);
+        const latestCommitHash = await getLatestCommitHash(branchName);
         const prID = await getPRIDForCommit(latestCommitHash);
 
         if (!prID) {
