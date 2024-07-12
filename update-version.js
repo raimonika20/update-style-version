@@ -21,14 +21,11 @@ async function getPRIDForCommit(commitHash) {
     const prs = response.data;
 
     for (const pr of prs) {
-        // console.log(`Checking PR #${pr.number} - ${pr.title}`);
         const prCommitsResponse = await axios.get(pr.commits_url);
         const prCommits = prCommitsResponse.data;
 
         for (const commit of prCommits) {
-            // console.log(`Checking commit: ${commit.sha}`);
             if (commit.sha.startsWith(commitHash)) {
-                // console.log(`Found matching PR #${pr.number} for commit ${commitHash}`);
                 return pr.number;
             }
         }
