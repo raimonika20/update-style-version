@@ -4,7 +4,8 @@ const path = require('path');
 
 const REPO_OWNER = 'raimonika20';
 const REPO_NAME = 'update-style-version';
-const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits`;
+const BRANCH_NAME = 'update-version-script';
+const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${BRANCH_NAME}`;
 const PR_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/pulls?state=open`;
 const STYLE_CSS_PATH = path.join(__dirname, 'style.css');
 
