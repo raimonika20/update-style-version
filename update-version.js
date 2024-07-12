@@ -26,7 +26,7 @@ async function getPRIDForCommit(commitHash) {
         const prCommits = prCommitsResponse.data;
 
         for (const commit of prCommits) {
-            console.log(`Checking commit: ${commit.sha}`);
+            // console.log(`Checking commit: ${commit.sha}`);
             if (commit.sha.startsWith(commitHash)) {
                 // console.log(`Found matching PR #${pr.number} for commit ${commitHash}`);
                 return pr.number;
