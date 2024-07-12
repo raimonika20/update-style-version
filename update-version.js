@@ -14,9 +14,9 @@ async function updateVersion() {
         // Read the style.css file
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
-        // Update the version in style.css
-        styleCss = styleCss.replace(/(\* Version:\s*)([\d.]+)(.*)/, (match, p1, p2, p3) => {
-            return `${p1}${p2}-${latestCommitHash}${p3}`;
+        // Check for existing hash and update the version in style.css
+        styleCss = styleCss.replace(/(\* Version:\s*\d+\.\d+\.\d+)(-\w+)?/, (match, p1) => {
+            return `${p1}-${latestCommitHash}`;
         });
 
         // Write the updated style.css back to the file
