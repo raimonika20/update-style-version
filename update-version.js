@@ -47,9 +47,10 @@ async function updateVersion() {
 
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
-        styleCss = styleCss.replace(/(Version:\s*\d+\.\d+\.\d+)(-\w+-\w+)?/, (match, p1) => {
-            return `${p1}-pr${prID}-${latestCommitHash}`;
-        });
+        styleCss = styleCss.replace(
+            /(Version:\s*\d+\.\d+\.\d+)(-\w+-\w+)?/,
+            `Version: 1.18.0-pr${prID}-${latestCommitHash}`
+        );
 
         fs.writeFileSync(STYLE_CSS_PATH, styleCss, 'utf8');
 
