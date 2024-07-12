@@ -10,7 +10,9 @@ const STYLE_CSS_PATH = path.join(__dirname, 'style.css');
 
 async function getLatestCommitHash() {
     const response = await axios.get(GITHUB_API_URL);
-    return response.data[0].sha.substring(0, 7);
+    const latestCommitHash = response.data[0].sha.substring(0, 7);
+    console.log(`Latest commit hash: ${latestCommitHash}`);
+    return latestCommitHash;
 }
 
 async function getPRIDForCommit(commitHash) {
@@ -18,11 +20,16 @@ async function getPRIDForCommit(commitHash) {
     const prs = response.data;
 
     for (const pr of prs) {
+        console.log(`Checking PR #${pr.number} - ${pr.title}`);
         const prCommitsResponse = await axios.get(pr.commits_url);
         const prCommits = prCommitsResponse.data;
-        
-        if (prCommits.some(commit => commit.sha.startsWith(commitHash))) {
-            return pr.number;
+
+        for (const commit of prCommits) {
+            console.log(`Checking commit: ${commit.sha}`);
+            if (commit.sha.startsWith(commitHash)) {
+                console.log(`Found matching PR #${pr.number} for commit ${commitHash}`);
+                return pr.number;
+            }
         }
     }
     return null; // Return null if no matching PR is found
