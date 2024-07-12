@@ -30,7 +30,7 @@ async function getPRIDForCommit(commitHash) {
             }
         }
     }
-    return null; // Return null if no matching PR is found
+    return null; 
 }
 
 async function updateVersion() {
