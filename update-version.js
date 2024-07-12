@@ -22,7 +22,7 @@ async function updateVersion() {
         // Write the updated style.css back to the file
         fs.writeFileSync(STYLE_CSS_PATH, styleCss, 'utf8');
 
-        console.log('style.css updated successfully.');
+        console.log('style.css updated successfullyyyy.');
     } catch (error) {
         console.error('Error updating style.css:', error);
     }
