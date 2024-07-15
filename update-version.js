@@ -12,10 +12,8 @@ function getBranchName() {
     return execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 }
 
-async function getLatestCommitHash(branchName) {
-    const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${branchName}`;
-    const response = await axios.get(GITHUB_API_URL);
-    const latestCommitHash = response.data[0].sha.substring(0, 7);
+function getLatestCommitHash() {
+    const latestCommitHash = execSync('git rev-parse HEAD').toString().trim().substring(0, 7);
     console.log(`Latest commit hash: ${latestCommitHash}`);
     return latestCommitHash;
 }
