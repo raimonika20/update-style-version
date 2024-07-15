@@ -48,7 +48,7 @@ async function getPRIDForCommit(commitHash) {
 async function updateVersion() {
     try {
         const branchName = getBranchName();
-        // console.log(`Current Branch: ${branchName}`);
+        console.log(`Current Branch: ${branchName}`);
         const latestCommitHash = getLatestCommitHash();
         console.log(`Current Hash: ${latestCommitHash}`);
         const prID = await getPRIDForCommit(latestCommitHash);
@@ -66,7 +66,7 @@ async function updateVersion() {
 
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
-        const versionRegex = /(Version:\s*\d+\.\d+\.\d+)(-\w+-\w+(-\w+)?)/;
+        const versionRegex = /(Version:\s*\d+\.\d+\.\d+)(-\w+)?(-\w+)?/;
         const newVersionString = `Version: 1.18.0-${versionSuffix}`;
 
         if (versionRegex.test(styleCss)) {
