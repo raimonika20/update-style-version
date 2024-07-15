@@ -13,9 +13,19 @@ function getBranchName() {
 }
 
 function getLatestCommitHash() {
-    const latestCommitHash = execSync('git rev-parse HEAD').toString().trim().substring(0, 7);
-    console.log(`Latest commit hash: ${latestCommitHash}`);
-    return latestCommitHash;
+    return execSync('git rev-parse HEAD').toString().trim().substring(0, 7);
+
+}
+
+function getGitTag() {
+    try {
+        const tag = execSync('git describe --tags').toString().trim();
+        console.log(`Git tag: ${tag}`);
+        return tag;
+    } catch (error) {
+        console.log('No tags found.');
+        return '';
+    }
 }
 
 async function getPRIDForCommit(commitHash) {
@@ -32,25 +42,33 @@ async function getPRIDForCommit(commitHash) {
             }
         }
     }
-    return null; 
+    return null;
 }
 
 async function updateVersion() {
     try {
         const branchName = getBranchName();
         // console.log(`Current Branch: ${branchName}`);
-        const latestCommitHash = await getLatestCommitHash(branchName);
+        const latestCommitHash = getLatestCommitHash();
+        console.log(`Current Hash: ${latestCommitHash}`);
         const prID = await getPRIDForCommit(latestCommitHash);
+        const gitTag = getGitTag();
+        console.log(`Current git tag: ${gitTag}`);
 
-        if (!prID) {
-            throw new Error('No PR found for the latest commit.');
+        let versionSuffix;
+        if (prID) {
+            versionSuffix = `pr${prID}-${latestCommitHash}`;
+        } else if (gitTag) {
+            versionSuffix = `${branchName}-${gitTag}-${latestCommitHash}`;
+        } else {
+            versionSuffix = `${branchName}-${latestCommitHash}`;
         }
 
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
         styleCss = styleCss.replace(
-            /(Version:\s*\d+\.\d+\.\d+)(-\w+-\w+)?/,
-            `Version: 1.18.0-pr${prID}-${latestCommitHash}`
+            /(Version:\s*\d+\.\d+\.\d+)(-\w+-\w+-\w+)?/,
+            `Version: 1.18.0-${versionSuffix}`
         );
 
         fs.writeFileSync(STYLE_CSS_PATH, styleCss, 'utf8');
