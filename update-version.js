@@ -62,11 +62,8 @@ async function updateVersion() {
             versionSuffix = `${branchName}-${gitTag}-${latestCommitHash}`;
         } else {
             versionSuffix = `${branchName}-${latestCommitHash}`;
-        }
-
-      
+        }  
         
-
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
         const versionRegex = /(Version:\s*\d+\.\d+\.\d+)(?:-\S+)?/;
