@@ -65,7 +65,7 @@ async function updateVersion() {
         }
 
         // comment
-        // Comment2
+        
 
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
