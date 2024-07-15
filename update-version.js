@@ -64,7 +64,7 @@ async function updateVersion() {
             versionSuffix = `${branchName}-${latestCommitHash}`;
         }
 
-        // comment
+      
         
 
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
