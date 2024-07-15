@@ -69,13 +69,13 @@ async function updateVersion() {
 
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
-        const versionRegex = /(Version:\s*\d+\.\d+\.\d+)(-\w+)?(-\w+)?/;
-        const newVersionString = `Version: 1.18.0-${versionSuffix}`;
+        const versionRegex = /(Version:\s*\d+\.\d+\.\d+)(?:-\S+)?/;
+        const newVersionString = `$1-${versionSuffix}`;
 
         if (versionRegex.test(styleCss)) {
             styleCss = styleCss.replace(versionRegex, newVersionString);
         } else {
-            styleCss = styleCss.replace(/(Version:\s*\d+\.\d+\.\d+)/, newVersionString);
+            styleCss = styleCss.replace(/(Version:\s*\d+\.\d+\.\d+)/, `$1-${versionSuffix}`);
         }
 
         fs.writeFileSync(STYLE_CSS_PATH, styleCss, 'utf8');
