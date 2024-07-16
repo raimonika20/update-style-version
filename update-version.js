@@ -38,30 +38,25 @@ function getGitTag(commitHash) {
 }
 
 async function getPRIDForCommit(commitHash) {
-    try {
-        const response = await axios.get(PR_API_URL);
-        const prs = response.data;
+    const response = await axios.get(PR_API_URL);
+    const prs = response.data;
 
-        for (const pr of prs) {
-            console.log(`Checking PR #${pr.number} - ${pr.title}`);
-            const prCommitsResponse = await axios.get(pr.commits_url);
-            const prCommits = prCommitsResponse.data;
+    for (const pr of prs) {
+        console.log(`Checking PR #${pr.number} - ${pr.title}`);
+        const prCommitsResponse = await axios.get(pr.commits_url);
+        const prCommits = prCommitsResponse.data;
 
-            for (const commit of prCommits) {
-                console.log(`Checking commit: ${commit.sha}`);
-                if (commit.sha.startsWith(commitHash)) {
-                    console.log(`Match found in PR #${pr.number}`);
-                    return pr.number;
-                }
+        for (const commit of prCommits) {
+            console.log(`Checking commit: ${commit.sha}`);
+            if (commit.sha.startsWith(commitHash)) {
+                console.log(`Match found in PR #${pr.number}`);
+                return pr.number;
+            } else {
+                console.log('No matching PR found for the commit hash.');
             }
         }
-
-        console.log('No matching PR found for the commit hash.');
-        return null;
-    } catch (error) {
-        console.error('Error fetching PRs:', error.message);
-        return null;
     }
+    return null;
 }
 
 
