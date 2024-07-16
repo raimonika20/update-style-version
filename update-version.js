@@ -14,6 +14,8 @@ function getBranchName() {
 
 // add comment
 
+// add comment2
+
 function getLatestCommitHash() {
     return execSync('git rev-parse HEAD').toString().trim().substring(0, 7);
 
@@ -59,6 +61,7 @@ async function updateVersion() {
         const latestCommitHash = getLatestCommitHash();
         console.log(`Current Hash: ${latestCommitHash}`);
         const prID = await getPRIDForCommit(latestCommitHash);
+        console.log(`Current PR ID: ${prID}`);
         const gitTag = getGitTag(latestCommitHash);
         console.log(`Current git tag: ${gitTag}`);
 
