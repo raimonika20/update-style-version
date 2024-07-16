@@ -17,10 +17,10 @@ function getLatestCommitHash() {
 
 }
 
-function getGitTag() {
+function getGitTag(commitHash) {
     try {
         const devNull = os.platform() === 'win32' ? 'NUL' : '/dev/null';
-        return execSync('git describe --tags --exact-match --abbrev=0 2>${devNull} ').toString().trim();          
+        return execSync('git describe --tags --contains ${commitHash} --abbrev=0 2>${devNull} ').toString().trim();
     } catch (error) {
         console.log('No tags found.');
         return '';
@@ -51,7 +51,7 @@ async function updateVersion() {
         const latestCommitHash = getLatestCommitHash();
         console.log(`Current Hash: ${latestCommitHash}`);
         const prID = await getPRIDForCommit(latestCommitHash);
-        const gitTag = getGitTag();
+        const gitTag = getGitTag(latestCommitHash);
         console.log(`Current git tag: ${gitTag}`);
 
         let versionSuffix;
@@ -61,8 +61,8 @@ async function updateVersion() {
             versionSuffix = `${branchName}-${gitTag}-${latestCommitHash}`;
         } else {
             versionSuffix = `${branchName}-${latestCommitHash}`;
-        }  
-        
+        }
+
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
         const versionRegex = /(Version:\s*\d+\.\d+\.\d+)(?:-\S+)?/;
