@@ -1,19 +1,30 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 const REPO_OWNER = 'raimonika20';
 const REPO_NAME = 'update-style-version';
-const BRANCH_NAME = 'update-version-script';
-const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?sha=${BRANCH_NAME}`;
 const PR_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/pulls?state=open`;
 const STYLE_CSS_PATH = path.join(__dirname, 'style.css');
 
-async function getLatestCommitHash() {
-    const response = await axios.get(GITHUB_API_URL);
-    const latestCommitHash = response.data[0].sha.substring(0, 7);
-    console.log(`Latest commit hash: ${latestCommitHash}`);
-    return latestCommitHash;
+function getBranchName() {
+    return execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+}
+
+function getLatestCommitHash() {
+    return execSync('git rev-parse HEAD').toString().trim().substring(0, 7);
+
+}
+
+function getGitTag() {
+    try {
+        return execSync('git describe --tags').toString().trim();
+
+    } catch (error) {
+        console.log('No tags found.');
+        return '';
+    }
 }
 
 async function getPRIDForCommit(commitHash) {
@@ -21,36 +32,47 @@ async function getPRIDForCommit(commitHash) {
     const prs = response.data;
 
     for (const pr of prs) {
-        // console.log(`Checking PR #${pr.number} - ${pr.title}`);
         const prCommitsResponse = await axios.get(pr.commits_url);
         const prCommits = prCommitsResponse.data;
 
         for (const commit of prCommits) {
-            // console.log(`Checking commit: ${commit.sha}`);
             if (commit.sha.startsWith(commitHash)) {
-                // console.log(`Found matching PR #${pr.number} for commit ${commitHash}`);
                 return pr.number;
             }
         }
     }
-    return null; // Return null if no matching PR is found
+    return null;
 }
 
 async function updateVersion() {
     try {
-        const latestCommitHash = await getLatestCommitHash();
+        const branchName = getBranchName();
+        console.log(`Current Branch: ${branchName}`);
+        const latestCommitHash = getLatestCommitHash();
+        console.log(`Current Hash: ${latestCommitHash}`);
         const prID = await getPRIDForCommit(latestCommitHash);
+        const gitTag = getGitTag();
+        console.log(`Current git tag: ${gitTag}`);
 
-        if (!prID) {
-            throw new Error('No PR found for the latest commit.');
+        let versionSuffix;
+        if (prID) {
+            versionSuffix = `pr${prID}-${latestCommitHash}`;
+        } else if (gitTag) {
+            versionSuffix = `${branchName}-${gitTag}-${latestCommitHash}`;
+        } else {
+            versionSuffix = `${branchName}-${latestCommitHash}`;
         }
 
         let styleCss = fs.readFileSync(STYLE_CSS_PATH, 'utf8');
 
-        styleCss = styleCss.replace(
-            /(Version:\s*\d+\.\d+\.\d+)(-\w+-\w+)?/,
-            `Version: 1.18.0-pr${prID}-${latestCommitHash}`
-        );
+        const versionRegex = /(Version:\s*\d+\.\d+\.\d+)(?:-\S+)?/;
+        const newVersionString = `$1-${versionSuffix}`;
+
+        if (versionRegex.test(styleCss)) {
+            styleCss = styleCss.replace(versionRegex, newVersionString);
+        } else {
+            styleCss = styleCss.replace(/(Version:\s*\d+\.\d+\.\d+)/, `$1-${versionSuffix}`);
+        }
 
         fs.writeFileSync(STYLE_CSS_PATH, styleCss, 'utf8');
 
