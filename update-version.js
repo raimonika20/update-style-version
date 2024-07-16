@@ -19,9 +19,8 @@ function getLatestCommitHash() {
 
 function getGitTag() {
     try {
-        const tag = execSync('git describe --tags --exact-match --abbrev=0').toString().trim();
-        console.log(`Git tag: ${tag}`);
-        return tag;
+        return execSync('git describe --tags --exact-match --abbrev=0 2>/dev/null').toString().trim();
+          
     } catch (error) {
         console.log('No tags found.');
         return '';
