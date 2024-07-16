@@ -19,8 +19,8 @@ function getLatestCommitHash() {
 
 function getGitTag() {
     try {
-        return execSync('git describe --tags --exact-match --abbrev=0 ').toString().trim();
-          
+        const devNull = os.platform() === 'win32' ? 'NUL' : '/dev/null';
+        return execSync('git describe --tags --exact-match --abbrev=0 2>${devNull} ').toString().trim();          
     } catch (error) {
         console.log('No tags found.');
         return '';
