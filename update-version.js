@@ -19,11 +19,7 @@ function getLatestCommitHash() {
 
 function getGitTag(commitHash) {
     try {
-        const tags = execSync('git tag --contains').toString().trim().split('\n');
-        const tag = tags.find(tag => {
-            const taggedCommitHash = execSync(`git rev-list -n 1 ${tag}`).toString().trim().substring(0, 7);
-            return taggedCommitHash === commitHash;
-        });
+        const tag = execSync(`git tag --points-at ${commitHash}`).toString().trim();
         if (tag) {
             console.log(`Git tag: ${tag}`);
             return tag;
@@ -32,7 +28,7 @@ function getGitTag(commitHash) {
             return '';
         }
     } catch (error) {
-        console.log('No tags found.');
+        console.log('Error fetching tag:', error.message);
         return '';
     }
 }
