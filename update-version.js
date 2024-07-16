@@ -55,7 +55,7 @@ async function updateVersion() {
         const gitTag = getGitTag();
         console.log(`Current git tag: ${gitTag}`);
 
-        // comment
+        // comment1
 
         let versionSuffix;
         if (prID) {
