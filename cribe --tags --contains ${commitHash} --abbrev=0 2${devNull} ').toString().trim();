@@ -1,0 +1,42 @@
+[33mc6c7385 [36mMonika [mAdd New Tag[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mupdate-version2[m[33m, [m[1;33mtag: [m[1;33mv1.0.1[m[33m, [m[1;31morigin/update-version2[m[33m)[m [36m31 minutes ago
+[33m8a61d86 [36mMonika [mFix Git Tag error[m [36m2 hours ago
+[33me1ce69f [36mMonika [mFix Git Tag Condition[m [36m3 hours ago
+[33m544d9c5 [36mMonika [mUpdate Git Tag Condition[m [36m3 hours ago
+[33m804213d [36mMonika [mAdd Condition for Git Tag[m [36m4 hours ago
+[33m82b0494 [36mMonika [mAdd Comment[m [36m5 hours ago
+[33mb4171af [36mMonika [mAdd Comment[m [36m23 hours ago
+[33m23033a5 [36mMonika [mGet Tag Name only[m [36m23 hours ago
+[33m3fced2f [36mMonika [mNew Style Version Test in New Branch[m [36m23 hours ago
+[33m34935a5 [36mMonika [mNew branch[m [36m23 hours ago
+[33m0553d14 [36mMonika [mUpdate Version according to PRID or Branch Name Final[m[33m ([m[1;33mtag: [m[1;33mv1.0.0[m[33m)[m [36m24 hours ago
+[33m41d2c3b [36mMonika [mRemove Comment1[m [36m24 hours ago
+[33m6e1634e [36mMonika [mRemove Comment2[m [36m24 hours ago
+[33m8c3baaf [36mMonika [mAdd WhiteSpaces[m [36m24 hours ago
+[33m205d327 [36mMonika [mAdd Comment 2[m [36m24 hours ago
+[33md966457 [36mMonika [mAdd Comment Check[m [36m24 hours ago
+[33me79d891 [36mMonika [mAdd Comment[m [36m25 hours ago
+[33m6d936d0 [36mMonika [mStyle.css Updates[m [36m25 hours ago
+[33mf4f8dd2 [36mMonika [mFix Version Update[m [36m25 hours ago
+[33m3b1c5c2 [36mMonika [mFix Style.css[m [36m25 hours ago
+[33m791893f [36mMonika [mFix Updating String[m [36m25 hours ago
+[33m6159d47 [36mMonika [mCheck PR Unavailability[m [36m25 hours ago
+[33m7c86328 [36mMonika [mAdd Conditions For PR, Git Tag and Branch Name[m [36m25 hours ago
+[33m0d4d0a0 [36mMonika [mCheck Local Git Update[m [36m25 hours ago
+[33me0f5cd2 [36mMonika [mGet Latest Commit from Local Git Repo[m [36m25 hours ago
+[33md9bc10d [36mMonika [mUpdate Branch Name Dynamically[m [36m4 days ago
+[33m44fdf7e [36mMonika [mRemove Comments[m [36m4 days ago
+[33m2ccdb0c [36mMonika [mRemove Log Comments[m [36m4 days ago
+[33meacc427 [36mMonika [mRemove All Logs[m [36m4 days ago
+[33mb632a2a [36mMonika [mRemove Logs[m [36m4 days ago
+[33m80e7d67 [36mMonika [mRemove Extra Console Logs[m [36m4 days ago
+[33m4f4e547 [36mMonika [mFix Multiple Commit Hash issues[m [36m4 days ago
+[33mdf43be8 [36mMonika [mFix Commit Hash[m [36m4 days ago
+[33mb436ad3 [36mMonika [mFix Branch Issues[m [36m4 days ago
+[33m4840c99 [36mMonika [mUpdate code[m [36m4 days ago
+[33m5ac2b22 [36mMonika [mFix issues[m [36m4 days ago
+[33m5f799dc [36mMonika [mFix issues[m [36m4 days ago
+[33m433ef0a [36mMonika [mFix version script to include PR ID and commit hash[m [36m4 days ago
+[33m46b9d1e [36mMonika [mUpdate version script to include PR ID and commit hash[m [36m4 days ago
+[33ma1d476b [36mMonika [mUpdate Console Logs[m[33m ([m[1;32mmain[m[33m)[m [36m4 days ago
+[33mfb3b132 [36mMonika [mFix Version Update[m [36m4 days ago
+[33m5c372c5 [36mMonika [mInitial Release[m [36m4 days ago

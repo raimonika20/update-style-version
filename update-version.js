@@ -17,7 +17,7 @@ function getLatestCommitHash() {
 
 }
 
-function getGitTag(commitHash) {
+async function getGitTag(commitHash) {
     try {
         const devNull = os.platform() === 'win32' ? 'NUL' : '/dev/null';
         return execSync('git describe --tags --contains ${commitHash} --abbrev=0 2>${devNull} ').toString().trim();
@@ -51,7 +51,7 @@ async function updateVersion() {
         const latestCommitHash = getLatestCommitHash();
         console.log(`Current Hash: ${latestCommitHash}`);
         const prID = await getPRIDForCommit(latestCommitHash);
-        const gitTag = getGitTag(latestCommitHash);
+        const gitTag = await getGitTag(latestCommitHash);
         console.log(`Current git tag: ${gitTag}`);
 
         let versionSuffix;
