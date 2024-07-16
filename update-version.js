@@ -53,7 +53,8 @@ async function getPRIDForCommit(commitHash) {
                 return pr.number;
             }
         }
-    return null;
+        return null;
+    }
 }
 
 async function updateVersion() {
