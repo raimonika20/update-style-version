@@ -36,7 +36,7 @@ function getGitTag(commitHash) {
 }
 
 async function getCommits(prCommitsUrl) {
-    const perPage = 100; // Number of commits per page
+    const perPage = 100;
     let page = 1;
     let allCommits = [];
 
