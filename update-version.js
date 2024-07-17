@@ -12,8 +12,6 @@ function getBranchName() {
     return execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
 }
 
-// add comment
-
 function getLatestCommitHash() {
     return execSync('git rev-parse HEAD').toString().trim().substring(0, 7);
 
