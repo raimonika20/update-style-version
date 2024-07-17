@@ -35,7 +35,7 @@ function getGitTag(commitHash) {
     }
 }
 
-async function getPRIDForCommit(commitHash) {
+async function getPRIDForCommit(commitHash, branchName) {
     try {
         const response = await axios.get(PR_API_URL);
         const prs = response.data;
@@ -43,17 +43,20 @@ async function getPRIDForCommit(commitHash) {
         console.log(`Total open PRs: ${prs.length}`);
 
         for (const pr of prs) {
-            console.log(`Checking PR #${pr.number} - ${pr.title}`);
-            const prCommitsResponse = await axios.get(pr.commits_url);
-            const prCommits = prCommitsResponse.data;
+            // Check if the PR is associated with the current branch
+            if (pr.head.ref === branchName) {
+                console.log(`Checking PR #${pr.number} - ${pr.title}`);
+                const prCommitsResponse = await axios.get(pr.commits_url);
+                const prCommits = prCommitsResponse.data;
 
-            console.log(`PR #${pr.number} has ${prCommits.length} commits`);
+                console.log(`PR #${pr.number} has ${prCommits.length} commits`);
 
-            for (const commit of prCommits) {
-                console.log(`Checking commit: ${commit.sha}`);
-                if (commit.sha.startsWith(commitHash)) {
-                    console.log(`Match found in PR #${pr.number}`);
-                    return pr.number;
+                for (const commit of prCommits) {
+                    console.log(`Checking commit: ${commit.sha}`);
+                    if (commit.sha.startsWith(commitHash)) {
+                        console.log(`Match found in PR #${pr.number}`);
+                        return pr.number;
+                    }
                 }
             }
         }
@@ -65,6 +68,8 @@ async function getPRIDForCommit(commitHash) {
         return null;
     }
 }
+
+
 
 
 async function updateVersion() {
