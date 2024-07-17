@@ -36,19 +36,18 @@ function getGitTag(commitHash) {
 }
 
 async function getCommits(prCommitsUrl) {
-    let commits = [];
+    const perPage = 100; // Number of commits per page
     let page = 1;
-    let perPage = 100; // Fetch 100 commits per page
-    let hasMore = true;
+    let allCommits = [];
 
-    while (hasMore) {
-        const response = await axios.get(`${prCommitsUrl}?per_page=${perPage}&page=${page}`);
-        commits = commits.concat(response.data);
-        hasMore = response.data.length === perPage;
+    while (true) {
+        const { data: commits } = await axios.get(`${prCommitsUrl}?per_page=${perPage}&page=${page}`);
+        if (commits.length === 0) break;
+        allCommits = allCommits.concat(commits);
         page++;
     }
 
-    return commits;
+    return allCommits;
 }
 
 async function getPRIDForCommit(commitHash) {
