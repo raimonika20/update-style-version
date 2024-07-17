@@ -72,9 +72,6 @@ async function getPRIDForCommit(commitHash) {
     }
 }
 
-
-
-
 async function updateVersion() {
     try {
         const branchName = getBranchName();
