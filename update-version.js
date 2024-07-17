@@ -43,17 +43,17 @@ async function getPRIDForCommit(commitHash, branchName) {
         console.log(`Total open PRs: ${prs.length}`);
 
         for (const pr of prs) {
-            // Check if the PR is associated with the current branch
-            if (pr.head.ref === branchName) {
-                console.log(`Checking PR #${pr.number} - ${pr.title}`);
-                const prCommitsResponse = await axios.get(pr.commits_url);
-                const prCommits = prCommitsResponse.data;
+            console.log(`Checking PR #${pr.number} - ${pr.title}`);
+            const prCommitsResponse = await axios.get(pr.commits_url);
+            const prCommits = prCommitsResponse.data;
 
-                console.log(`PR #${pr.number} has ${prCommits.length} commits`);
+            console.log(`PR #${pr.number} has ${prCommits.length} commits`);
 
-                for (const commit of prCommits) {
-                    console.log(`Checking commit: ${commit.sha}`);
-                    if (commit.sha.startsWith(commitHash)) {
+            for (const commit of prCommits) {
+                console.log(`Checking commit: ${commit.sha}`);
+                if (commit.sha.startsWith(commitHash)) {
+                    // Ensure that the PR is from the current branch
+                    if (pr.head.ref === branchName) {
                         console.log(`Match found in PR #${pr.number}`);
                         return pr.number;
                     }
